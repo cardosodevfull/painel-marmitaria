@@ -39,7 +39,7 @@ export const AppProvider = ({ children }) => {
     }, []);
 
     const sound = () => {
-        var audio = new Audio('./ad.mp3');
+        var audio = new Audio('./d2.mp3');
         audio.play();
     }
 
@@ -58,7 +58,8 @@ export const AppProvider = ({ children }) => {
             user,
             entregas,
             getEntrega,
-            entrega
+            entrega,
+            sound
         }}>
             {children}
         </AppContext.Provider>

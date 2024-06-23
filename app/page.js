@@ -1,11 +1,16 @@
 "use client"
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from './config/AppContext';
 import Navbar from './components/Navbar';
 
 export default function Page() {
   const [total, setTotal] = useState(0);
-  const { user, entregas, getEntrega, entrega } = useContext(AppContext);
+  const { user, entregas, getEntrega, entrega, sound } = useContext(AppContext);
+
+  useEffect(()=>{
+    sound()
+    return;
+  },[entregas])
 
   function addEntrega(Id) {
     getEntrega(Id)
@@ -51,7 +56,7 @@ export default function Page() {
             </div>}
         </div>
       </div>     
-      
+      <audio id='ad' src='./ad.mp3'></audio>
     </div>
   )
 }
