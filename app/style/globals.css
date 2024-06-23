@@ -1,0 +1,31 @@
+/*Navbar */
+.navbar {
+    background-color: #4b6584;
+    color: white;
+    border-bottom: 1px solid white;
+}
+.navbar .container-fluid a{
+    color: white !important;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.painel-list{     
+    background-color: #4b6584;
+    min-height: 500px;
+}
+.painel-detalhe{
+   min-height: 500px;
+}
+.painel-detalhe span{
+    color: #4b6584;
+}
+.card{    
+    margin-left: .5rem !important;
+    background-color: #32ff7e;    
+}
+.price{
+    margin-right: 1rem;
+    text-align: end;
+    color:#4b6584;
+}
