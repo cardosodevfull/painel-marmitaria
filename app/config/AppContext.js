@@ -21,6 +21,7 @@ export const AppProvider = ({ children }) => {
     const [user, setUser] = useState('Francisco');
     const [entregas, setEntregas] = useState([]);
     const [entrega, setEntrega] = useState({});
+    const [idtemp,setIdtemp] = useState("");
 
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export const AppProvider = ({ children }) => {
 
                 }));
                 setEntregas(docs);
-                if(docs.length){
+                if (docs.length) {
                     sound();
                 }
             })
@@ -43,14 +44,21 @@ export const AppProvider = ({ children }) => {
         audio.play();
     }
 
-    const getEntrega = async (Id) => {       
+    const getEntrega = async (Id) => {
         const docRef = doc(db, "pedidos", Id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             setEntrega(docSnap.data());
+            setIdtemp(Id)
         } else {
             console.log("No such document!");
         }
+    }
+
+    const trocarStatus = async (param) => {
+        app.firestore().collection('pedidos').doc(idtemp).set({
+            status: param
+          },{merge:true});          
     }
 
     return (
@@ -59,7 +67,8 @@ export const AppProvider = ({ children }) => {
             entregas,
             getEntrega,
             entrega,
-            sound
+            sound,
+            trocarStatus
         }}>
             {children}
         </AppContext.Provider>
