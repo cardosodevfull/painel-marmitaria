@@ -45,7 +45,7 @@ export default function Page() {
               <hr />
               {entrega.sacola.map((s, i) => (
                 <div key={i}>
-                  <p>1 - <span> {s.name} </span> <span>( esperto: {s.espeto} )</span></p>                
+                  <p>1 - <span> {s.name} </span> <span>{s.espeto && "(" + s.espeto + ")"} </span></p>                
                 </div>
               ))}
 
