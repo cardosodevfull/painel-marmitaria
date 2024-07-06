@@ -21,7 +21,10 @@ export const AppProvider = ({ children }) => {
     const [user, setUser] = useState('Francisco');
     const [entregas, setEntregas] = useState([]);
     const [entrega, setEntrega] = useState({});
-    const [idtemp,setIdtemp] = useState("");
+    const [idtemp, setIdtemp] = useState("");
+    const [aberto, setAberto] = useState("");
+    const [venda, setVenda] = useState(0)
+    const [despesa, setDespesa] = useState(0)
 
 
     useEffect(() => {
@@ -30,12 +33,45 @@ export const AppProvider = ({ children }) => {
                 const docs = snap.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
-
                 }));
                 setEntregas(docs);
                 if (docs.length) {
                     sound();
                 }
+            })
+    }, []);
+
+    useEffect(() => {
+        app.firestore().collection('pedidos')
+            .onSnapshot((snap) => {
+                const docs = snap.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setVenda(docs.reduce((a, b) => a + b.priceTotal, 0))
+            })
+    }, []);
+
+
+    useEffect(() => {
+        app.firestore().collection('loja')
+            .onSnapshot((snap) => {
+                const docs = snap.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setAberto(docs[0].status);
+            })
+    }, []);
+
+    useEffect(() => {
+        app.firestore().collection('loja')
+            .onSnapshot((snap) => {
+                const docs = snap.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setDespesa(docs[1].despesa);
             })
     }, []);
 
@@ -58,17 +94,39 @@ export const AppProvider = ({ children }) => {
     const trocarStatus = async (param) => {
         app.firestore().collection('pedidos').doc(idtemp).set({
             status: param
-          },{merge:true});          
+        }, { merge: true });
+    }
+
+    const addDespesa = async (param) => {
+        app.firestore().collection('loja').doc("02").set({
+            despesa: despesa + param
+        }, { merge: true });
+    }
+
+    const statusLoja = async (param) => {
+        if (param == true) {
+            app.firestore().collection('loja').doc("01").set({
+                status: false
+            }, { merge: true });
+
+        } else {
+            app.firestore().collection('loja').doc("01").set({
+                status: true
+            }, { merge: true });
+        }
     }
 
     return (
         <AppContext.Provider value={{
+            aberto, setAberto,
             user,
             entregas,
             getEntrega,
             entrega,
             sound,
-            trocarStatus
+            trocarStatus,
+            statusLoja,
+            venda,despesa,addDespesa
         }}>
             {children}
         </AppContext.Provider>

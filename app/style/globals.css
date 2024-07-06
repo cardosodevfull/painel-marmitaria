@@ -28,3 +28,10 @@
     text-align: end;
     color:#4b6584;
 }
+.main{
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+    padding-top: 5rem;
+}
