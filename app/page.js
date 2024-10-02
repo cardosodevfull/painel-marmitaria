@@ -31,7 +31,7 @@ export default function Page() {
         <div className="col-4 painel-list">
           {entregas.map(e => (
             <a key={e.id} onClick={() => addEntrega(e.id)}>
-              {e.status == "solicitado" ?
+              {e.status == "aberto" ?
                 <div className='card bg-warning p-2 mt-2'>
                   <p>{e.status}</p>
                 </div>
@@ -53,8 +53,7 @@ export default function Page() {
               <hr />
               <p>Nome: <span>{entrega.user.name}</span></p>
               <p>Telefone: <span>{entrega.user.phone}</span></p>
-              <p>Endereço: <span>{entrega.user.location}</span></p>
-              <p>número: <span>{entrega.user.number}</span></p>
+              <p>Endereço: <span>{entrega.user.location}</span></p>              
               <hr />
               <h6>Dados do pedido</h6>
               <hr />
@@ -68,10 +67,10 @@ export default function Page() {
 
               <hr />
               <div className='text-end price'>
-                <h3>R$ {entrega.sacola.reduce((a, b) => a + b.price, 0).toFixed(2).replace(".", ",")}</h3>
+                <h3>R$ {entrega.priceTotal.toFixed(2).replace(".", ",")}</h3>
               </div>
               <div className='d-flex'>
-                {entrega.status == "solicitado" &&
+                {entrega.status == "aberto" &&
                   <button onClick={() => setarFeito("finalizado")} className='btn btn-secondary'>Finalizar pedido</button>
                 }
               </div>
