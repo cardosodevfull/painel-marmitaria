@@ -53,15 +53,19 @@ export default function Page() {
               <hr />
               <p>Nome: <span>{entrega.user.name}</span></p>
               <p>Telefone: <span>{entrega.user.phone}</span></p>
-              <p>Endereço: <span>{entrega.user.location}</span></p>              
+              <p>Endereço: <span>{entrega.user.location}</span></p>
               <hr />
               <h6>Dados do pedido</h6>
               <hr />
               {entrega.sacola.map((s, i) => (
                 <div key={i}>
                   <p>1 - <span> {s.name} </span> <span>{s.espeto && "(" + s.espeto + ")"} </span></p>
-                  <p><span>{s.tipoFeijao}</span></p>
-                  <p><span>{s.tipoSalada}</span></p>
+                  <>
+                    {s.detalhes.map((d, k) => (
+                      <div>- {d}</div>
+                    ))}
+                  </>
+                  {s.observacao && <div class="alert alert-danger" role="alert">{s.observacao}</div>}
                 </div>
               ))}
 
